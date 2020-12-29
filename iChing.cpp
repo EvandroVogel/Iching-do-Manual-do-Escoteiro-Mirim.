@@ -4,59 +4,77 @@
 #include<math.h>
 using namespace std;
 
+void separador(){
+	cout<<"\n\n******\n\n";
+}
+
+void imprimeTracos(int a[]){
+	for(int i = 0; i < 6; ++i){
+		if (a[i] == 1){
+			cout << "     ___  ___\n";
+		}else{
+			cout << "     ________\n";
+		}
+	}
+}
+
+void imprimeE(int e []){	
+	for(int i = 5; i >= 0; --i){
+		cout << e[i] << endl;
+	}
+}
+
+int populaE(int e[]){	
+	for(int i = 0 ; i<=5 ; ++i){
+		int n;
+		cout<<"Você tem que digitar 1 para coroa ou 2 para cara.\n";
+		cin>>n; 	
+		if((n != 1) && (n != 2)){
+			break;
+		}else{
+			e[i]= n;
+		}
+	}
+	return 0;
+}
+
 int main(){
 	setlocale(LC_ALL, "ptb");
 	int a[6], e[6];
 	int b = 0;
 	
-	for(int i = 0 ; i<=5 ; ++i){
-	
-		int n;
-		cout<<"Você tem que digitar 0 para coroa ou 1 para cara.\n";
-		cin>>n; 
-		e[i]= n;
-	}
+	populaE(e);
 	
 	for(int i = 0 ; i <= 5 ; ++i){
-	   a[i] = e[5-i];
+		if((e[5-i] == 1 ) || (e[5-i] == 2)){
+			a[i] = e[5-i];
+		}else{
+			b = 64;
+			break;
+		}	
 	}
-	
-	cout << endl;
-	
+		
 	for(int i = 0; i < 6; ++i){
 		int c;
-		if (a[i] == 1){
+		if (a[i] == 2){
 			c = 2;
-		}else if (a[i] != 1 ){
+		}else if (a[i] != 2 ){
 			c = 0;
 		}
-		if(c !=0 ){
+		if(c != 0 ){
 			b =  pow (c, i) + b;
 		}
 	}
-
-	cout<<"\n******\n\n";
-	
-	for(int i = 5; i >= 0; --i){
-		cout << e[i] << endl;
+	if(b != 64){
+		separador();
+		imprimeE(e);
+		separador();
+		imprimeTracos(a);
+		cout <<"\n b:"<<b;
+		separador();
 	}
-	
-	cout << "\n******\n";
-	
-	for(int i = 0; i < 6; ++i){
-		if (a[i] == 0){
-			cout << "     ___  ___\n";
-		}else if(a[i] == 1){
-			cout << "     ________\n";
-		}
-		else{
-			cout << "Você deveria ter digitado 0 para coroa ou 1 para cara.\n";	
-			break;
-		}
-	}
-	
-	cout << "\n******\n"   << endl;
-	
+	separador();
+					
 	switch (b){
 		case 0:
 		cout<< "Receptividade:\n Sucesso pela obediência.";
@@ -313,8 +331,12 @@ int main(){
 		case 63:
 		cout<< "Tranformação: \n A mudança é positiva.";
 		break;
+		
+		case 64:
+		cout<< "Você não digitou 1 para coroa nem 2 para cara!";
+		break;
 	}
 		
-	cout << "\n******\n\n"   << endl;		
+	separador();		
 	return 0;
 }
